@@ -11,7 +11,9 @@
 - [ ] This change requires a documentation update
 
 ## How has this been tested?
-[Describe the tests you ran to verify your changes. Provide instructions so we can reproduce.]
+- [Describe the tests you ran to verify your changes]
+- [Provide any results or outcomes from the tests]
+- [Include any additional notes related to the tests]
 
 ## Checklist
 - [ ] My code follows the style guidelines of this project
