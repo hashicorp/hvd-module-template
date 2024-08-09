@@ -13,7 +13,7 @@
 ## How has this been tested?
 [Describe the tests you ran to verify your changes. Provide instructions so we can reproduce.]
 
-## Checklist:
+## Checklist
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my code
 - [ ] I have commented my code, particularly in hard-to-understand areas
