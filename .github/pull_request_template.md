@@ -23,5 +23,5 @@
 - [ ] New and existing unit tests pass locally with my changes
 - [ ] Any dependent changes have been merged and published in downstream modules
 
-## Additional notes:
+## Additional notes
 [Add any additional information or context about the PR here]
