@@ -9,3 +9,10 @@ output:
 settings:
   hide-empty: true
   lockfile: false
+
+content: |-
+  # Examples
+
+  ```hcl
+  {{ include "examples/main.tf" }}
+  ```
