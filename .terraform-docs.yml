@@ -11,8 +11,18 @@ settings:
   lockfile: false
 
 content: |-
-  # Examples
+  ## Example Usage
 
   ```hcl
   {{ include "examples/main.tf" }}
   ```
+
+  {{ .Requirements }}
+
+  {{ .Providers }}
+
+  {{ .Resources }}
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}
