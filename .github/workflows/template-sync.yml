@@ -1,4 +1,4 @@
-name: Jira Sync
+name: Template Sync
 on:
   schedule:
     - cron: "0 0 1 * *"
