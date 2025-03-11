@@ -1,8 +1,0 @@
-name: Jira Sync
-on:
-  schedule:
-    - cron: "0 0 1 * *"
-  workflow_dispatch:
-jobs:
-  sync:
-    uses: hashicorp/hvd-module-gha/.github/workflows/template-sync.yml@main
