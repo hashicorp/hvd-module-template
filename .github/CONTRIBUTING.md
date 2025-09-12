@@ -17,8 +17,10 @@ This repository uses [Task](https://taskfile.dev/) to manage development tasks.
 
 ### Requirements
 
+The `release` task requires;
+
 - Make sure you have Task installed before proceeding, <https://taskfile.dev/docs/installation>.
-- This also relies on the GitHub cli `GH`, <https://cli.github.com/>
+- This also relies on the GitHub cli `GH`, <https://cli.github.com/>, do not forget to authenticate `gh`
 - The `markdown-url-converter.py` requires `python` in your `$PATH`.
 
 ## Available Tasks
