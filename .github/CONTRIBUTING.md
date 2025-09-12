@@ -13,7 +13,13 @@ The repo includes a pull-request template with basic requirments for testing and
 
 ## Tooling
 
-This repository uses [Task](https://taskfile.dev/) to manage development tasks. Make sure you have Task installed before proceeding.
+This repository uses [Task](https://taskfile.dev/) to manage development tasks.
+
+### Requirements
+
+- Make sure you have Task installed before proceeding, <https://taskfile.dev/docs/installation>.
+- This also relies on the GitHub cli `GH`, <https://cli.github.com/>
+- The `markdown-url-converter.py` requires `python` in your `$PATH`.
 
 ## Available Tasks
 
@@ -33,8 +39,7 @@ To run all tests:
 task test
 ```
 
-This will run both Go and Terraform tests:
-- `task test-go`: Runs formatting checks and tests for Go code
+This will run Terraform tests:
 - `task test-terraform`: Runs formatting checks, initialization, and validation for all Terraform directories
 
 ## Cleaning
@@ -46,7 +51,6 @@ task clean
 ```
 
 This includes:
-- `task clean-go`: Cleans the Go environment (runs `go mod tidy`)
 - `task clean-terraform`: Removes Terraform directories and lock files
 
 ## Documentation
@@ -73,7 +77,8 @@ MOD_RELEASE=X.Y.Z task release
 
 Requirements:
 - GitHub CLI (`gh`) must be installed
-- `MOD_RELEASE` environment variable must be set to a valid semver tag (e.g., `1.2.3`)
+- Python must be in the PATH:
+- `MOD_RELEASE` variable must be set to a valid semver tag (e.g., `1.2.3`), it can be set as an env var `export MOD_RELEASE`, in `env.local`, or passsed at the command line `MOD_RELEASE=x.x.x. task release`
 - The new version must be greater than the current tag
 
 The release process will:
@@ -106,4 +111,5 @@ task: [release] gh release create 0.1.2 \
 
 task: [release] git push origin --delete rel-${MOD_RELEASE}
 ```
-You can also set the `MOD_RELEASE` variable in a `.env.local` file for convenience.
+
+> You can also set the `MOD_RELEASE` variable in a `.env.local` file for convenience.
