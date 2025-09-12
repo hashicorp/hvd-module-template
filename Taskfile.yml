@@ -14,19 +14,12 @@ tasks:
   test:
     desc: Run tests.
     cmds:
-      - task: test-go
       - task: test-terraform
 
   clean:
     desc: Clean the environment.
     cmds:
-      - task: clean-go
       - task: clean-terraform
-
-  clean-go:
-    desc: Clean the go environment (go mod tidy)
-    cmds:
-      - go mod tidy
 
   terraform-docs:
     desc: Update terraform docs
@@ -58,13 +51,6 @@ tasks:
     cmds:
       - find . -type d -name .terraform -exec rm -rf {} +
       - find . -type f -name .terraform.lock.hcl -delete
-
-  test-go:
-    desc: Run tests for all Go code.
-    silent: true
-    cmds:
-      - go fmt ./...
-      - go vet -v ./...
 
   test-terraform:
     desc: Run tests for all terraform directories.
