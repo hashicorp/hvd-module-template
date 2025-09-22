@@ -126,3 +126,5 @@ tasks:
         --title "{{.MOD_RELEASE}}" \
         --generate-notes --verify-tag
       - git push origin --delete rel-${MOD_RELEASE}
+      - git checkout main
+      - git branch -D rel-${MOD_RELEASE}
