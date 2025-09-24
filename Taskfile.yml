@@ -96,14 +96,14 @@ tasks:
       - sh: test -x "$(which gh 2>/dev/null)"
         msg: 'GH CLI required. See https://cli.github.com/.'
       - sh: test -n "{{.MOD_RELEASE}}"
-        msg: 'MOD_RELEASE environment variable required. MOD_RELEASE should be a semver tag like `1.2.3`` and greater than current tag {{.SEMVER_TAG}}. either pass with `MOD_RELEASE=1.2.3 task release` or set in .env.local file.'
+        msg: 'MOD_RELEASE environment variable required. MOD_RELEASE should be a semver tag like `1.2.3`` and greater than current tag {{.PREV_TAG}}. either pass with `MOD_RELEASE=1.2.3 task release` or set in .env.local file.'
     vars:
       MOD_REPO:
         sh: echo "${PWD##*/}"
       REPO_OWNER:
         sh: git config --local remote.origin.url | cut -d':' -f2 | cut -d'/' -f1
-      SEMVER_TAG:
-        sh: git describe  --tags --abbrev=0
+      PREV_TAG:
+        sh: git describe --tags $(git rev-list --tags --max-count=1)
     env:
       MOD_RELEASE: '{{.MOD_RELEASE}}'
     cmds:
