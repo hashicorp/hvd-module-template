@@ -124,7 +124,7 @@ tasks:
         gh release create {{.MOD_RELEASE}} \
         --repo {{.REPO_OWNER}}/{{.MOD_REPO}} \
         --title "{{.MOD_RELEASE}}" \
-        --generate-notes --verify-tag
+        --generate-notes --notes-start-tag {{.PREV_TAG}} --verify-tag
       - git push origin --delete rel-${MOD_RELEASE}
       - git checkout main
       - git branch -D rel-${MOD_RELEASE}
