@@ -14,15 +14,15 @@
   "fenced-code-language": {
     "allowed_languages": [
       "bash",
-			"shell",
+      "shell",
       "html",
       "javascript",
       "json",
       "markdown",
       "text",
-	  "hcl",
-	  "yaml",
-		"pre"
+      "hcl",
+      "yaml",
+      "pre"
     ],
     "language_only": true
   },
@@ -34,7 +34,7 @@
   },
   "line-length": {
     "strict": false,
-	"line_length": 800,
+  "line_length": 800,
     "code_blocks": false
   },
   "link-image-style": {
@@ -69,7 +69,7 @@
   "ul-style": {
     "style": "dash"
   },
-	"MD033": false,
-	"MD052": false,
-	"MD060": false
+  "MD033": false,
+  "MD052": false,
+  "MD060": false
 }
