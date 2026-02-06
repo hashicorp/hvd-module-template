@@ -89,7 +89,7 @@ repos:
 - repo: local
 # ------------
 # markdown linters
-# Hooks are set to manual stage to avoid slowing down regular commits, and also due to prerequisite requirments on local machines
+# Hooks are set to manual stage to avoid slowing down regular commits, and also due to prerequisite requirements on local machines
 # markdownlint requires nodejs and npm, and can be installed via npm install -g markdownlint-cli and configured via .markdownlint.json file
 # mdl requires ruby and gem package manager, and .mdlrc configuration file
 # mdl_docker requires docker to be installed and running.
