@@ -15,7 +15,7 @@ done
 for path_uniq in $(echo "${paths[*]}" | tr ' ' '\n' | sort -u); do
   path_uniq="${path_uniq//__REPLACED__SPACE__/ }"
 
-  if [[ -n "$(find $path_uniq -maxdepth 1 -name '*.tf' -print -quit)" ]]; then
+  if [[ -n "$(find "$path_uniq" -maxdepth 1 -name '*.tf' -print -quit)" ]]; then
 
     starting_path=$(realpath "$path_uniq")
     terraform_path="$path_uniq"
@@ -35,7 +35,7 @@ for path_uniq in $(echo "${paths[*]}" | tr ' ' '\n' | sort -u); do
     # Change to the directory that has been initialized, run validation, then
     # change back to the starting directory.
     cd "$(realpath "$terraform_path")"
-    if ! terraform validate $validate_path; then
+    if ! terraform validate "$validate_path"; then
       error=1
       echo
       echo "Failed path: $path_uniq"

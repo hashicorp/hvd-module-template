@@ -18,7 +18,7 @@ main() {
         ;;
       --)
         shift
-        files="$@"
+        files="$*"
         break
         ;;
     esac
@@ -33,14 +33,14 @@ tflint_() {
 
     paths[index]=$(dirname "$file_with_path")
 
-    let "index+=1"
+    ((index+=1))
   done
 
   for path_uniq in $(echo "${paths[*]}" | tr ' ' '\n' | sort -u); do
     path_uniq="${path_uniq//__REPLACED__SPACE__/ }"
 
     pushd "$path_uniq" > /dev/null
-    tflint $args
+    tflint "$args"
     popd > /dev/null
   done
 }
@@ -499,7 +499,7 @@ getopt() {
         c=${s:i:1}
         case $c in
           \\ | \' | !)
-            echo -n "'\\$c'"
+            printf "'\\%s'" "$c"
             ;;
           $'\n')
             echo -n "\\$c"
@@ -561,4 +561,4 @@ getopt() {
   return $status
 }
 
-[[ $BASH_SOURCE != "$0" ]] || main "$@"
+[[ ${BASH_SOURCE[0]} != "$0" ]] || main "$@"
