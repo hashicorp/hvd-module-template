@@ -33,7 +33,7 @@ tflint_() {
 
     paths[index]=$(dirname "$file_with_path")
 
-    ((index+=1))
+    (("index+=1"))
   done
 
   for path_uniq in $(echo "${paths[*]}" | tr ' ' '\n' | sort -u); do
