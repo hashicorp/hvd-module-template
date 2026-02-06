@@ -34,7 +34,8 @@ rule "terraform_standard_module_structure" {
 rule "terraform_unused_declarations" {
   enabled = false
 
-  # tfc_hmac_token
+  # Disabled because tfc_hmac_token is managed via external configuration and
+  # therefore appears unused to TFLint.
 }
 
 rule "terraform_naming_convention" {
