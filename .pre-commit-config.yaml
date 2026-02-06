@@ -125,7 +125,7 @@ repos:
       # require_serial: true
     - id: markdownlint
       name: markdownlint
-      description: "Fixes the style of Markdown/Commonmark files."
+      description: "Checks the style of Markdown/Commonmark files."
       entry: markdownlint
       language: node
       types: [ markdown ]
