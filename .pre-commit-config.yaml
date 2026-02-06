@@ -15,6 +15,14 @@ repos:
       exclude: "templates/.*"
     - id: check-vcs-permalinks
 
+- repo: https://github.com/shellcheck-py/shellcheck-py
+  rev: v0.11.0.1
+  hooks:
+    - id: shellcheck
+      name: ShellCheck
+      description: ShellCheck is a static analysis tool for shell scripts.
+      entry: shellcheck
+
 - repo: local
   hooks:
     - id: check_variables_consistency

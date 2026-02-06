@@ -1,0 +1,4 @@
+disable=SC2154,SC1083,SC2288
+# https://github.com/koalaman/shellcheck/wiki/SC2154
+# https://github.com/koalaman/shellcheck/wiki/SC1083
+# https://github.com/koalaman/shellcheck/wiki/SC2288
