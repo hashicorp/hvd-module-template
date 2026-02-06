@@ -52,7 +52,6 @@ repos:
       exclude: (^helpers/|\.terraform\/.*$)
 
 - repo: local
-
   hooks:
     - id: terraform_tflint
       name: Terraform validate with tflint
@@ -79,7 +78,6 @@ repos:
 
 - repo: https://github.com/terraform-docs/terraform-docs
   rev: "v0.21.0"          # e.g. "v0.11.2"
-
   hooks:
     - id: terraform-docs-go
       exclude: ^helpers/
