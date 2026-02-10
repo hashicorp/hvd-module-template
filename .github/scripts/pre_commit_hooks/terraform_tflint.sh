@@ -6,8 +6,8 @@ main() {
   argv=$(getopt -o a: --long args: -- "$@") || return
   eval "set -- $argv"
 
-  declare args
-  declare files
+  declare -g args
+  declare -g files
 
   for argv; do
     case $argv in
@@ -28,6 +28,14 @@ main() {
 }
 
 tflint_() {
+
+  local args="$1"
+  local files="$2"
+  local -a paths=()
+  local index=0
+  local file_with_path
+  local path_uniq
+
   for file_with_path in $files; do
     file_with_path="${file_with_path// /__REPLACED__SPACE__}"
 
@@ -40,7 +48,7 @@ tflint_() {
     path_uniq="${path_uniq//__REPLACED__SPACE__/ }"
 
     pushd "$path_uniq" > /dev/null
-    tflint $args
+    tflint "${args[@]}"
     popd > /dev/null
   done
 }
