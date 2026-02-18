@@ -9,20 +9,20 @@ main() {
   declare -g args
 	declare -g files
 
-  for argv; do
-    case $argv in
-      -a | --args)
-        shift
-        args="$1"
-        shift
-        ;;
-      --)
-        shift
-        files="$*"
-        break
-        ;;
-    esac
-  done
+		for argv in "$@"; do
+			case "$argv" in
+				-a | --args)
+					shift
+					args="$1"
+					shift
+					;;
+				--)
+					shift
+					files="$*"
+					break
+					;;
+			esac
+		done
 
   tflint_ "$args" "$files"
 }
