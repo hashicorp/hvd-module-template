@@ -32,10 +32,19 @@ for path_uniq in $(echo "${paths[*]}" | tr ' ' '\n' | sort -u); do
 
     validate_path="${path_uniq#"$terraform_path"}"
 
+    # Determine arguments for terraform validate. If validate_path is empty,
+    # call terraform validate with no explicit path so it defaults to the
+    # current directory.
+    if [[ -z "$validate_path" ]]; then
+      validate_args=()
+    else
+      validate_args=("$validate_path")
+    fi
+
     # Change to the directory that has been initialized, run validation, then
     # change back to the starting directory.
     cd "$(realpath "$terraform_path")"
-    if ! terraform validate "$validate_path"; then
+    if ! terraform validate "${validate_args[@]}"; then
       error=1
       echo
       echo "Failed path: $path_uniq"
