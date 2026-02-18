@@ -129,6 +129,6 @@ repos:
       types: [ markdown ]
       stages: [ manual ]
       files: \.(md|mdown|markdown)$
-      exclude: (^specs/|^\.*/)
+      exclude: (^specs/|^\..*/)
       # additional_dependencies: [ "markdownlint@0.32.1" ]
       # require_serial: true
