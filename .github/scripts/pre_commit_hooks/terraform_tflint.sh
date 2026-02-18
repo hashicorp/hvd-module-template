@@ -7,7 +7,7 @@ main() {
   eval "set -- $argv"
 
   declare -g args
-	declare -g files
+  declare -g files
 
 		for argv in "$@"; do
 			case "$argv" in
