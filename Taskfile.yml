@@ -103,7 +103,7 @@ tasks:
       REPO_OWNER:
         sh: git config --local remote.origin.url | cut -d':' -f2 | cut -d'/' -f1
       PREV_TAG:
-        sh: git describe --tags $(git rev-list --tags --max-count=1)
+        sh: git describe --tags $(git rev-list --tags --max-count=1) || echo "" # Get the latest tag or return empty string if no tags exist
     env:
       MOD_RELEASE: '{{.MOD_RELEASE}}'
     cmds:
