@@ -124,9 +124,6 @@ tasks:
       - |
         RELEASE_NOTES=$(gh release view {{.MOD_RELEASE}} --repo {{.REPO_OWNER}}/{{.MOD_REPO}} --json body --jq .body)
         TEMP_FILE=$(mktemp)
-        echo "## v{{.MOD_RELEASE}}" > $TEMP_FILE
-        echo "" >> $TEMP_FILE
-        trap 'rm -f "$TEMP_FILE"' EXIT
         echo "## v{{.MOD_RELEASE}}" > "$TEMP_FILE"
         echo "" >> "$TEMP_FILE"
         echo "$RELEASE_NOTES" >> "$TEMP_FILE"
@@ -151,10 +148,12 @@ tasks:
           echo "Waiting for tag ${MOD_RELEASE} to propagate to origin (attempt ${i}/10)..."
           sleep 3
         done
-        gh release create {{.MOD_RELEASE}} \
-        --repo {{.REPO_OWNER}}/{{.MOD_REPO}} \
-        --title "{{.MOD_RELEASE}}" \
-        --generate-notes --notes-start-tag {{.PREV_TAG}}
+
+        GH_RELEASE_ARGS="--repo {{.REPO_OWNER}}/{{.MOD_REPO}} --title \"{{.MOD_RELEASE}}\" --generate-notes"
+        if [ -n "{{.PREV_TAG}}" ]; then
+          GH_RELEASE_ARGS="$GH_RELEASE_ARGS --notes-start-tag {{.PREV_TAG}}"
+        fi
+        gh release create {{.MOD_RELEASE}} $GH_RELEASE_ARGS
       - |
         RELEASE_NOTES=$(gh release view {{.MOD_RELEASE}} --repo {{.REPO_OWNER}}/{{.MOD_REPO}} --json body --jq .body)
         PR_BODY_FILE=$(mktemp)
@@ -162,11 +161,11 @@ tasks:
         echo "" >> "$PR_BODY_FILE"
         echo "$RELEASE_NOTES" >> "$PR_BODY_FILE"
         gh pr create \
-        --repo {{.REPO_OWNER}}/{{.MOD_REPO}} \
-        --title "Release {{.MOD_RELEASE}}" \
-        --body-file "$PR_BODY_FILE" \
-        --base main \
-        --head release/rc-${MOD_RELEASE} || true
+          --repo {{.REPO_OWNER}}/{{.MOD_REPO}} \
+          --title "Release {{.MOD_RELEASE}}" \
+          --body-file "$PR_BODY_FILE" \
+          --base main \
+          --head release/rc-${MOD_RELEASE} || true
 
       # Note: release/rc-${MOD_RELEASE} branches are preserved after creating the PR.
       # To clean up after the release PR has been merged, delete the branch manually:
