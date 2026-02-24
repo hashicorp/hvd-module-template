@@ -118,14 +118,12 @@ task: [release] RELEASE_NOTES=$(gh release view 1.2.3 --repo hashicorp/hvd-modul
 TEMP_FILE=$(mktemp)
 echo "## v1.2.3" > $TEMP_FILE
 echo "" >> $TEMP_FILE
-trap 'rm -f "$TEMP_FILE"' EXIT
 echo "## v1.2.3" > "$TEMP_FILE"
 echo "" >> "$TEMP_FILE"
 echo "$RELEASE_NOTES" >> "$TEMP_FILE"
 echo "" >> "$TEMP_FILE"
 tail -n +1 CHANGELOG.md >> "$TEMP_FILE"
 mv "$TEMP_FILE" CHANGELOG.md
-trap - EXIT
 git add CHANGELOG.md
 git commit -m "chore: update CHANGELOG.md for v1.2.3"
 git push origin release/rc-${MOD_RELEASE}
