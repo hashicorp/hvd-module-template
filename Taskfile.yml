@@ -133,7 +133,6 @@ tasks:
           tail -n +1 CHANGELOG.md >> "$TEMP_FILE"
         fi
         mv "$TEMP_FILE" CHANGELOG.md
-        trap - EXIT
         git add CHANGELOG.md
         git commit -m "chore: update CHANGELOG.md for v{{.MOD_RELEASE}}"
         git push origin release/rc-${MOD_RELEASE}
