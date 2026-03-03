@@ -103,7 +103,7 @@ tasks:
       REPO_OWNER:
         sh: git config --local remote.origin.url | cut -d':' -f2 | cut -d'/' -f1
       PREV_TAG:
-        sh: git describe --tags $(git rev-list --tags --max-count=1) || echo "" # Get the latest tag or return empty string if no tags exist
+        sh: git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || printf '' # Get the latest tag or return empty string if no tags exist
     env:
       MOD_RELEASE: '{{.MOD_RELEASE}}'
     cmds:
@@ -137,7 +137,7 @@ tasks:
         git commit -m "chore: update CHANGELOG.md for v{{.MOD_RELEASE}}"
         git push origin release/rc-${MOD_RELEASE}
       - git tag -af ${MOD_RELEASE} -m "${MOD_RELEASE} release"
-      - git push origin --tags -f
+      - git push origin refs/tags/${MOD_RELEASE} -f
       - |
         # Wait for the updated tag to be visible on the remote before creating the release
         for i in {1..10}; do
@@ -149,23 +149,43 @@ tasks:
           sleep 3
         done
 
-        GH_RELEASE_ARGS="--repo {{.REPO_OWNER}}/{{.MOD_REPO}} --title \"{{.MOD_RELEASE}}\" --generate-notes"
         if [ -n "{{.PREV_TAG}}" ]; then
-          GH_RELEASE_ARGS="$GH_RELEASE_ARGS --notes-start-tag {{.PREV_TAG}}"
+          gh release create "{{.MOD_RELEASE}}" \
+            --repo "{{.REPO_OWNER}}/{{.MOD_REPO}}" \
+            --title "{{.MOD_RELEASE}}" \
+            --generate-notes \
+            --notes-start-tag "{{.PREV_TAG}}"
+        else
+          gh release create "{{.MOD_RELEASE}}" \
+            --repo "{{.REPO_OWNER}}/{{.MOD_REPO}}" \
+            --title "{{.MOD_RELEASE}}" \
+            --generate-notes
         fi
-        gh release create {{.MOD_RELEASE}} $GH_RELEASE_ARGS
       - |
         RELEASE_NOTES=$(gh release view {{.MOD_RELEASE}} --repo {{.REPO_OWNER}}/{{.MOD_REPO}} --json body --jq .body)
         PR_BODY_FILE=$(mktemp)
         echo "Release version {{.MOD_RELEASE}}" > "$PR_BODY_FILE"
         echo "" >> "$PR_BODY_FILE"
         echo "$RELEASE_NOTES" >> "$PR_BODY_FILE"
-        gh pr create \
+        if ! gh pr create \
           --repo {{.REPO_OWNER}}/{{.MOD_REPO}} \
           --title "Release {{.MOD_RELEASE}}" \
           --body-file "$PR_BODY_FILE" \
           --base main \
-          --head release/rc-${MOD_RELEASE} || true
+          --head release/rc-${MOD_RELEASE}; then
+          # If PR creation failed, check whether an open PR from this branch already exists.
+          if gh pr list \
+            --repo {{.REPO_OWNER}}/{{.MOD_REPO}} \
+            --head "release/rc-${MOD_RELEASE}" \
+            --state open \
+            --json number \
+            --jq '.[0].number' >/dev/null 2>&1; then
+            echo "Pull request from release/rc-${MOD_RELEASE} already exists; continuing."
+          else
+            echo "Failed to create pull request for release/rc-${MOD_RELEASE}." >&2
+            exit 1
+          fi
+        fi
 
       # Note: release/rc-${MOD_RELEASE} branches are preserved after creating the PR.
       # To clean up after the release PR has been merged, delete the branch manually:

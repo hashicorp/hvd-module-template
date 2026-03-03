@@ -97,8 +97,7 @@ The release process will do the following.
  MOD_RELEASE=1.2.3 task release -vn
 task: dynamic variable: "echo \"${PWD##*/}\"" result: "hvd-module-template"
 task: dynamic variable: "git config --local remote.origin.url | cut -d':' -f2 | cut -d'/' -f1" result: "hashicorp"
-fatal: No names found, cannot describe anything.
-task: dynamic variable: "git describe --tags $(git rev-list --tags --max-count=1) || echo \"\"" result: ""
+task: dynamic variable: "git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || echo \"\"" result: ""
 task: "release" started
 task: [release] export MOD_REPO="hvd-module-template"
 export MOD_RELEASE="1.2.3"
@@ -116,8 +115,7 @@ task: [release] git commit -m "Revert release commit to retain tag in history"
 task: [release] git push origin release/rc-${MOD_RELEASE}
 task: [release] RELEASE_NOTES=$(gh release view 1.2.3 --repo hashicorp/hvd-module-template --json body --jq .body)
 TEMP_FILE=$(mktemp)
-echo "## v1.2.3" > $TEMP_FILE
-echo "" >> $TEMP_FILE
+
 echo "## v1.2.3" > "$TEMP_FILE"
 echo "" >> "$TEMP_FILE"
 echo "$RELEASE_NOTES" >> "$TEMP_FILE"
